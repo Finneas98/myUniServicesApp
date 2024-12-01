@@ -1,18 +1,36 @@
 package com.example.myuniservicesapp.Navigation
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHost
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
-import com.example.myuniservicesapp.templates.Home
+import com.example.myuniservicesapp.templates.LoginScreen
+import com.example.myuniservicesapp.templates.RegisterScreen
+import androidx.navigation.compose.composable
+
 
 @Composable
 fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValues) {
-    NavHost(navController, startDestination = "home") {
-        composable("home") { Home(navController) }
-        composable("login") { Login(navController) }
-        composable("register") { Register(navController) }
-        composable("settings") { Settings(navController) }
+    NavHost(
+        navController = navController,
+        startDestination = "login",
+        modifier = Modifier.padding(paddingValues)
+    ) {
+        composable(route = "login") {
+            LoginScreen(
+                onLoginSuccess = { navController.navigate("home") }, // Navigate to a "home" screen
+                navController = navController
+            )
+        }
+        composable(route = "register") {
+            RegisterScreen(
+                onRegisterSuccess = { navController.navigate("login")},
+                navController = navController
+            )
+        }
     }
 }
+
 
