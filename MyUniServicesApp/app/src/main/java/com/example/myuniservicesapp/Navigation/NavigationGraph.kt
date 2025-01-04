@@ -10,7 +10,6 @@ import com.example.myuniservicesapp.templates.LoginScreen
 import com.example.myuniservicesapp.templates.RegisterScreen
 import androidx.navigation.compose.composable
 
-
 @Composable
 fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValues) {
     NavHost(
@@ -20,7 +19,7 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
     ) {
         composable(route = "login") {
             LoginScreen(
-                onLoginSuccess = { navController.navigate("home") }, // Navigate to a "home" screen
+                onLoginSuccess = { navController.navigate("home") },
                 navController = navController
             )
         }

@@ -66,3 +66,31 @@ fun saveUserToFirestore(
             Log.w(TAG, "Error adding document", e)
         }
 }
+
+fun updateUserDetails(
+    newName: String,
+    newPassword: String,
+    onSuccess: () -> Unit,
+    onError: (String) -> Unit
+) {
+    try {
+        val user = Firebase.auth.currentUser
+        val db = Firebase.firestore
+
+        val updates = mapOf("name" to newName)
+
+        user?.updatePassword(newPassword)
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    db.collection("users").document(user.uid)
+                        .update(updates)
+                        .addOnSuccessListener { onSuccess() }
+                        .addOnFailureListener { e -> onError(e.message ?: "Error updating name") }
+                } else {
+                    onError(task.exception?.message ?: "Error updating password")
+                }
+            }
+    } catch (e: Exception) {
+        onError(e.message ?: "Unexpected error occurred")
+    }
+}

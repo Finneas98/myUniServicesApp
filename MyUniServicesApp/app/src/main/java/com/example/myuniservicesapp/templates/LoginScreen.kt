@@ -23,13 +23,18 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.myuniservicesapp.utils.loginUser
 import androidx.navigation.compose.rememberNavController
+import com.example.myuniservicesapp.atoms.LoginButton
+import com.example.myuniservicesapp.atoms.RegisterButton
+import com.example.myuniservicesapp.molecules.EmailInput
+import com.example.myuniservicesapp.molecules.PasswordInput
 
 @Composable
-fun LoginScreen(onLoginSuccess: () -> Unit,navController: NavHostController) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+fun LoginScreen(onLoginSuccess: () -> Unit,
+                navController: NavHostController) {
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,20 +44,9 @@ fun LoginScreen(onLoginSuccess: () -> Unit,navController: NavHostController) {
     ) {
         Text(text = "Login", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
-        TextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Email") },
-            modifier = Modifier.fillMaxWidth()
-        )
+        EmailInput(email = email, onEmailChange = { email = it })
         Spacer(modifier = Modifier.height(16.dp))
-        TextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
-        )
+        PasswordInput(password = password, onPasswordChange = { password = it })
         Spacer(modifier = Modifier.height(16.dp))
         if (errorMessage != null) {
             Text(
@@ -62,8 +56,9 @@ fun LoginScreen(onLoginSuccess: () -> Unit,navController: NavHostController) {
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
-        Button(
-            onClick = {
+        LoginButton(
+            isLoading = isLoading,
+            onLoginClick = {
                 isLoading = true
                 loginUser(email, password, onSuccess = {
                     isLoading = false
@@ -73,19 +68,14 @@ fun LoginScreen(onLoginSuccess: () -> Unit,navController: NavHostController) {
                     errorMessage = error
                 })
             },
-            enabled = !isLoading,
             modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(if (isLoading) "Logging in..." else "Login")
-        }
-        Button(
+        )
+        RegisterButton(
             onClick = {
                 navController.navigate("register")
             },
             modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Register")
-        }
+        )
     }
 }
 
