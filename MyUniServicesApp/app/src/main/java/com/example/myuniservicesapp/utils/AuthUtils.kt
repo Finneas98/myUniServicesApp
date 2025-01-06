@@ -3,10 +3,9 @@ package com.example.myuniservicesapp.utils
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.Firebase
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
-
-
 
 fun loginUser(
     email: String,
@@ -23,6 +22,11 @@ fun loginUser(
                 onError(task.exception?.message ?: "An error occurred")
             }
         }
+}
+
+fun logoutUser() {
+    val auth = Firebase.auth
+    auth.signOut()
 }
 
 fun registerUser(email: String, password: String, name: String, onSuccess: () -> Unit, onError: (String) -> Unit) {
@@ -47,28 +51,31 @@ fun saveUserToFirestore(
     password: String,
     name: String
 ) {
-    // Create a new user with a first and last name
+    // Create a new user object
     val user = hashMapOf(
-        "id" to userId,
         "email" to email,
-        "password" to password,
+        "password" to password, // Note: Consider hashing the password instead of storing it in plain text
         "name" to name
     )
+
     val db = Firebase.firestore
 
-// Add a new document with a generated ID
+    // Set the document ID to the userId
     db.collection("users")
-        .add(user)
-        .addOnSuccessListener { documentReference ->
-            Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+        .document(userId)
+        .set(user) // Use set() to specify the document ID explicitly
+        .addOnSuccessListener {
+            Log.d("Firestore", "User saved successfully with ID: $userId")
         }
         .addOnFailureListener { e ->
-            Log.w(TAG, "Error adding document", e)
+            Log.w("Firestore", "Error saving user", e)
         }
 }
 
+
 fun updateUserDetails(
     newName: String,
+    currentPassword: String,
     newPassword: String,
     onSuccess: () -> Unit,
     onError: (String) -> Unit
@@ -77,20 +84,66 @@ fun updateUserDetails(
         val user = Firebase.auth.currentUser
         val db = Firebase.firestore
 
-        val updates = mapOf("name" to newName)
+        if (user == null) {
+            onError("User not logged in")
+            return
+        }
 
-        user?.updatePassword(newPassword)
-            ?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    db.collection("users").document(user.uid)
-                        .update(updates)
-                        .addOnSuccessListener { onSuccess() }
-                        .addOnFailureListener { e -> onError(e.message ?: "Error updating name") }
+        // Reauthenticate the user with the current password
+        val email = user.email
+        if (email == null) {
+            onError("User email not found")
+            return
+        }
+
+        val credential = EmailAuthProvider.getCredential(email, currentPassword)
+        user.reauthenticate(credential)
+            .addOnCompleteListener { reauthTask ->
+                if (reauthTask.isSuccessful) {
+                    // Reauthentication successful, proceed with password update
+                    user.updatePassword(newPassword)
+                        .addOnCompleteListener { updatePasswordTask ->
+                            if (updatePasswordTask.isSuccessful) {
+                                // Update other user details
+                                val updates = mapOf("name" to newName,"password" to newPassword)
+                                db.collection("users").document(user.uid)
+                                    .update(updates)
+                                    .addOnSuccessListener { onSuccess() }
+                                    .addOnFailureListener { e ->
+                                        onError(e.message ?: "Error updating name")
+                                    }
+                            } else {
+                                onError(updatePasswordTask.exception?.message ?: "Error updating password")
+                            }
+                        }
                 } else {
-                    onError(task.exception?.message ?: "Error updating password")
+                    onError(reauthTask.exception?.message ?: "Error reauthenticating user")
                 }
             }
     } catch (e: Exception) {
         onError(e.message ?: "Unexpected error occurred")
     }
 }
+
+fun fetchUserName(userId: String, onSuccess: (String) -> Unit, onError: (String) -> Unit) {
+    val db = Firebase.firestore
+
+    db.collection("users")
+        .document(userId) // Assuming the document ID is the same as the user ID
+        .get()
+        .addOnSuccessListener { document ->
+            if (document.exists()) {
+                val name = document.getString("name") ?: "Unknown"
+                onSuccess(name)
+            } else {
+                onError("User not found")
+            }
+        }
+        .addOnFailureListener { exception ->
+            onError(exception.message ?: "Error fetching user name")
+        }
+}
+
+
+
+

@@ -2,13 +2,25 @@ package com.example.myuniservicesapp.Navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import com.example.myuniservicesapp.templates.LoginScreen
 import com.example.myuniservicesapp.templates.RegisterScreen
 import androidx.navigation.compose.composable
+import com.example.myuniservicesapp.templates.HomeScreen
+import com.example.myuniservicesapp.templates.SettingsScreen
+import com.example.myuniservicesapp.utils.fetchUserName
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValues) {
@@ -29,6 +41,42 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
                 navController = navController
             )
         }
+        composable(route = "home") {
+            HomeScreen(navController)
+        }
+        composable(route = "settings") {
+            var currentName by remember { mutableStateOf<String?>(null) }
+            var errorMessage by remember { mutableStateOf<String?>(null) }
+            val currentUserId = Firebase.auth.currentUser?.uid
+
+            LaunchedEffect(currentUserId) {
+                if (currentUserId != null) {
+                    fetchUserName(
+                        userId = currentUserId,
+                        onSuccess = { name -> currentName = name },
+                        onError = { error -> errorMessage = error }
+                    )
+                } else {
+                    errorMessage = "User not logged in"
+                }
+            }
+
+            if (currentName != null) {
+                SettingsScreen(
+                    onUpdateSuccess = { navController.navigate("settings") },
+                    navController = navController,
+                    currentName = currentName!!
+                )
+            } else {
+                // Show a loading indicator or an error message while fetching
+                if (errorMessage != null) {
+                    Text(text = "Error: $errorMessage")
+                } else {
+                    CircularProgressIndicator()
+                }
+            }
+        }
+
     }
 }
 

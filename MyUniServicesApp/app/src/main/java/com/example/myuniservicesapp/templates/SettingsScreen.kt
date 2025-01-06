@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.myuniservicesapp.atoms.UpdateButton
+import com.example.myuniservicesapp.molecules.CurrentPasswordInput
 import com.example.myuniservicesapp.molecules.NameInput
 import com.example.myuniservicesapp.molecules.NewPasswordInput
 import com.example.myuniservicesapp.utils.updateUserDetails
@@ -25,12 +26,12 @@ import com.example.myuniservicesapp.utils.updateUserDetails
 @Composable
 fun SettingsScreen(onUpdateSuccess: () -> Unit,
                    navController: NavHostController,
-                   currentName: String,
-                   currentPassword: String) {
+                   currentName: String) {
     var name by remember { mutableStateOf(currentName) }
-    var newPassword by remember { mutableStateOf(currentPassword) }
+    var newPassword by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    var currentPassword by remember { mutableStateOf("")}
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -41,6 +42,8 @@ fun SettingsScreen(onUpdateSuccess: () -> Unit,
         Text(text = "Account Settings", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
         NameInput(name = name, onNameChange = { name = it })
+        Spacer(modifier = Modifier.height(16.dp))
+        CurrentPasswordInput(password = currentPassword, onPasswordChange = {currentPassword = it})
         Spacer(modifier = Modifier.height(16.dp))
         NewPasswordInput(password = newPassword, onPasswordChange = { newPassword = it })
         Spacer(modifier = Modifier.height(16.dp))
@@ -59,6 +62,7 @@ fun SettingsScreen(onUpdateSuccess: () -> Unit,
                 updateUserDetails(
                     newName = name,
                     newPassword = newPassword,
+                    currentPassword = currentPassword,
                     onSuccess = {
                         isLoading = false
                         onUpdateSuccess()
