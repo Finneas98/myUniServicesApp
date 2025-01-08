@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.myuniservicesapp-mergeDebugResources-67:/values-watch-v20/values-watch-v20.xml",
+            "outputFile": "com.example.myuniservicesapp-mergeDebugResources-68:/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\fionn\\.gradle\\caches\\transforms-4\\8163a2907f66ed72ed0317bc2427faf6\\transformed\\play-services-auth-20.7.0\\res\\values-watch-v20\\values.xml",
+                    "source": "C:\\Users\\fionnan\\.gradle\\caches\\transforms-4\\d66488e32545e2272713bd16f0068c58\\transformed\\play-services-auth-20.7.0\\res\\values-watch-v20\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
                         "startColumns": "0,0,0,0,0,0,0,0",

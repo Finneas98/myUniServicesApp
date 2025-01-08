@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey
     ]
 )
 data class Booking(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey
     val roomId: Int,
     val timeSlot: String,
     val date: String,

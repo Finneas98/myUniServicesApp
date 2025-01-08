@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.myuniservicesapp.atoms.BackButton
 import com.example.myuniservicesapp.atoms.UpdateButton
 import com.example.myuniservicesapp.molecules.CurrentPasswordInput
 import com.example.myuniservicesapp.molecules.NameInput
@@ -74,6 +75,8 @@ fun SettingsScreen(onUpdateSuccess: () -> Unit,
                 )
             }
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        BackButton(navController,"home")
     }
 }
 

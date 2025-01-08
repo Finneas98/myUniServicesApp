@@ -26,10 +26,12 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 @Composable
-fun ConfirmBookingScreen(navController: NavController, room: String, timeSlot: String) {
-    val db = Firebase.firestore
-    val currentUserId = Firebase.auth.currentUser?.uid ?: return
-
+fun ConfirmBookingScreen(
+    roomId: Int,
+    timeSlot: String,
+    date: String,
+    navController: NavController
+) {
     var isBooking by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
@@ -47,7 +49,7 @@ fun ConfirmBookingScreen(navController: NavController, room: String, timeSlot: S
         )
 
         Text(
-            text = "Room: $room\nTime Slot: $timeSlot",
+            text = "Room ID: $roomId\nTime Slot: $timeSlot\nDate: $date",
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center
         )
@@ -60,23 +62,9 @@ fun ConfirmBookingScreen(navController: NavController, room: String, timeSlot: S
             Button(
                 onClick = {
                     isBooking = true
-                    db.collection("bookings")
-                        .add(
-                            mapOf(
-                                "userId" to currentUserId,
-                                "roomId" to room,
-                                "timeSlot" to timeSlot,
-                                "date" to getCurrentDate()
-                            )
-                        )
-                        .addOnSuccessListener {
-                            isBooking = false
-                            navController.popBackStack() // Navigate back after booking
-                        }
-                        .addOnFailureListener { e ->
-                            isBooking = false
-                            errorMessage = "Error booking slot: ${e.message}"
-                        }
+                    // Handle the booking logic (e.g., save to RoomDB or API call)
+                    isBooking = false
+                    navController.popBackStack() // Navigate back after booking
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -94,6 +82,4 @@ fun ConfirmBookingScreen(navController: NavController, room: String, timeSlot: S
     }
 }
 
-fun getCurrentDate(): String {
 
-}
