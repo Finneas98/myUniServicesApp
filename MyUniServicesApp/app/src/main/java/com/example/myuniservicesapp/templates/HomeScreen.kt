@@ -30,8 +30,8 @@ fun HomeScreen(navController: NavHostController) {
         )
 
         ServiceButton(
-            text = "Timetabling Service",
-            onClick = { navController.navigate("timetable") },
+            text = "Study Room Booking",
+            onClick = { navController.navigate("libraryBooking") },
             isEnabled = true
         )
 
