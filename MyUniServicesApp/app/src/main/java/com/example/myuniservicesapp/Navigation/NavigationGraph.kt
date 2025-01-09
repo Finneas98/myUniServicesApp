@@ -48,18 +48,37 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
                 navController = navController
             )
         }
+
         composable(route = "register") {
             RegisterScreen(
                 onRegisterSuccess = { navController.navigate("login")},
                 navController = navController
             )
         }
+
         composable(route = "home") {
+            val currentUserId = Firebase.auth.currentUser?.uid
+            var currentName by remember { mutableStateOf<String?>(null) }
+            var errorMessage by remember { mutableStateOf<String?>(null) }
+
+            LaunchedEffect(currentUserId) {
+                if (currentUserId != null) {
+                    fetchUserName(
+                        userId = currentUserId,
+                        onSuccess = { name -> currentName = name },
+                        onError = { error -> errorMessage = error }
+                    )
+                } else {
+                    errorMessage = "User not logged in"
+                }
+            }
             HomeScreen(navController)
         }
+
         composable(route = "libraryBooking") {
             BookingTableScreen(navController = navController)
         }
+
         composable(
             route = "confirmBooking?roomId={roomId}&timeSlot={timeSlot}&date={date}",
             arguments = listOf(
@@ -78,6 +97,7 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
                 navController = navController
             )
         }
+
         composable(route = "settings") {
             var currentName by remember { mutableStateOf<String?>(null) }
             var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -110,7 +130,6 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
                 }
             }
         }
-
     }
 }
 

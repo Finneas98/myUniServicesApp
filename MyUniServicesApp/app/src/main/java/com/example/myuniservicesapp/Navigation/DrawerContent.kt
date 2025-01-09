@@ -25,38 +25,6 @@ fun DrawerContent(navController: NavHostController, drawerState: DrawerState) {
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
     Column {
-        Text("Navigate to:")
-
-        // Home item
-        TextButton(onClick = {
-            coroutineScope.launch {
-                drawerState.close()  // Close the drawer first
-                navController.navigate("home")  // Then navigate to home
-            }
-        }) {
-            Text("Intro to Jetpack Compose")
-        }
-
-        // Profile item
-        TextButton(onClick = {
-            coroutineScope.launch {
-                drawerState.close()  // Close the drawer first
-                navController.navigate("screen2")  // Then navigate to profile
-            }
-        }) {
-            Text("Composable Functions")
-        }
-
-        // Settings item
-        TextButton(onClick = {
-            coroutineScope.launch {
-                drawerState.close()  // Close the drawer first
-                navController.navigate("screen3")  // Then navigate to settings
-            }
-        }) {
-            Text("State in Compose")
-        }
-
         LogoutButton(
             isLoading = isLoading,
             onLogoutClick = {

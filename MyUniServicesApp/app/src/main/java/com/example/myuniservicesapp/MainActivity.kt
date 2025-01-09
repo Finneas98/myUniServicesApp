@@ -31,7 +31,6 @@ import com.example.myuniservicesapp.Navigation.NavigationGraph
 import com.example.myuniservicesapp.organisms.MyTopBar
 import com.example.myuniservicesapp.templates.HomeScreen
 import com.example.myuniservicesapp.templates.LoginScreen
-import com.example.myuniservicesapp.templates.WelcomeScreen
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
