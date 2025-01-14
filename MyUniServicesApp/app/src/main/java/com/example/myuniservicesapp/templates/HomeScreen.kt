@@ -2,15 +2,21 @@ package com.example.myuniservicesapp.templates
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.myuniservicesapp.atoms.ServiceButton
 import com.example.myuniservicesapp.organisms.BottomNav
 
@@ -29,42 +35,40 @@ fun HomeScreen(navController: NavHostController) {
             modifier = Modifier.padding(16.dp)
         )
 
-        ServiceButton(
-            text = "Study Room Booking",
-            onClick = { navController.navigate("libraryBooking") },
-            isEnabled = true
-        )
+        Column(
+            modifier = Modifier
+                .weight(1f),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            // First Row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                ServiceButton(text = "Study Room Booking", onClick = { navController.navigate("libraryBooking") }, isEnabled = true)
+                ServiceButton(text = "Service 2", onClick = { /* Handle action */ }, isEnabled = false)
+                ServiceButton(text = "Service 3", onClick = { /* Handle action */ }, isEnabled = false)
+            }
 
-        ServiceButton(
-            text = "Service 2",
-            onClick = { /* No action */ },
-            isEnabled = false
-        )
-
-        ServiceButton(
-            text = "Service 3",
-            onClick = { /* No action */ },
-            isEnabled = false
-        )
-
-        ServiceButton(
-            text = "Service 4",
-            onClick = { /* No action */ },
-            isEnabled = false
-        )
-
-        ServiceButton(
-            text = "Service 5",
-            onClick = { /* No action */ },
-            isEnabled = false
-        )
-
-        ServiceButton(
-            text = "Service 6",
-            onClick = { /* No action */ },
-            isEnabled = false
-        )
+            // Second Row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                ServiceButton(text = "Service 4", onClick = { /* Handle action */ }, isEnabled = false)
+                ServiceButton(text = "Service 5", onClick = { /* Handle action */ }, isEnabled = false)
+                ServiceButton(text = "Service 6", onClick = { /* Handle action */ }, isEnabled = false)
+            }
+        }
 
         BottomNav(navController)
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewHomeScreen() {
+    val navController = rememberNavController() // Create a mock NavController for the preview
+    HomeScreen(navController = navController)
 }

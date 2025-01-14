@@ -10,8 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.myuniservicesapp.atoms.AccountSettingsButton
 import com.example.myuniservicesapp.atoms.HomeButton
 
@@ -29,6 +31,14 @@ fun BottomNav(navController: NavHostController) {
         AccountSettingsButton(navController)
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewBottomNav() {
+    val navController = rememberNavController() // Mock a NavController for preview
+    BottomNav(navController = navController)
+}
+
 
 
 
