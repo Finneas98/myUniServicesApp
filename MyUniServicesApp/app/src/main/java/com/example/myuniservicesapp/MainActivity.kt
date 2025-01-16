@@ -1,5 +1,6 @@
 package com.example.myuniservicesapp
 
+import android.content.res.Resources.Theme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,10 +13,14 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.compose.AppTheme
 import com.example.myuniservicesapp.Navigation.DrawerContent
 import com.example.myuniservicesapp.Navigation.NavigationGraph
 import com.example.myuniservicesapp.organisms.MyTopBar
@@ -62,18 +68,20 @@ fun MyUniServicesApp(){
         LoginScreen(onLoginSuccess = {isUserLoggedIn = true}, navController = navController)
     }
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            DrawerContent(navController = navController, drawerState = drawerState)
-        }
-    ) {
-        Scaffold(
-            topBar = { MyTopBar(drawerState, coroutineScope) },
-            content = { paddingValues ->
-                MainContent(navController, paddingValues)
+    AppTheme {
+        ModalNavigationDrawer(
+            drawerState = drawerState,
+            drawerContent = {
+                DrawerContent(navController = navController, drawerState = drawerState)
             }
-        )
+        ) {
+            Scaffold(
+                topBar = { MyTopBar(drawerState, coroutineScope) },
+                content = { paddingValues ->
+                    MainContent(navController, paddingValues)
+                }
+            )
+        }
     }
 }
 
@@ -87,7 +95,9 @@ fun MainContent(navController: NavHostController, paddingValues: PaddingValues) 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview(){
-    MyUniServicesApp()
+    AppTheme {
+        MyUniServicesApp()
+    }
 }
 
 //@Composable

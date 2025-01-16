@@ -7,13 +7,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 
-@Composable
-fun NewPasswordInput(password: String, onPasswordChange: (String) -> Unit) {
-    TextField(
-        value = password,
-        onValueChange = onPasswordChange,
-        label = { Text("New Password") },
-        visualTransformation = PasswordVisualTransformation(),
-        modifier = Modifier.fillMaxWidth()
-    )
-}
+// No longer needed, integrated into PasswordInput
+
+//@Composable
+//fun NewPasswordInput(
+//    password: String,
+//    onPasswordChange: (String) -> Unit,
+//    text: String
+//) {
+//    TextField(
+//        value = password,
+//        onValueChange = onPasswordChange,
+//        label = { Text(text) },
+//        visualTransformation = PasswordVisualTransformation(),
+//        modifier = Modifier.fillMaxWidth()
+//    )
+//}

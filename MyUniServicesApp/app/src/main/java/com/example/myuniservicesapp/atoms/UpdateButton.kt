@@ -6,15 +6,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
-@Composable
-fun UpdateButton(isLoading: Boolean, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        enabled = !isLoading,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(if (isLoading) "Updating..." else "Update")
-    }
-}
+// No longer needed, integrated into AuthButton
+
+//@Composable
+//fun UpdateButton(isLoading: Boolean, onClick: () -> Unit) {
+//    Button(
+//        onClick = onClick,
+//        enabled = !isLoading,
+//        modifier = Modifier.fillMaxWidth()
+//    ) {
+//        Text(if (isLoading) "Updating..." else "Update")
+//    }
+//}
 
 

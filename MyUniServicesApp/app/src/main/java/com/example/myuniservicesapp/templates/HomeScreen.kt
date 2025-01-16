@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.compose.AppTheme
 import com.example.myuniservicesapp.atoms.ServiceButton
 import com.example.myuniservicesapp.organisms.BottomNav
 
@@ -34,7 +35,6 @@ fun HomeScreen(navController: NavHostController) {
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(16.dp)
         )
-
         Column(
             modifier = Modifier
                 .weight(1f),
@@ -50,7 +50,6 @@ fun HomeScreen(navController: NavHostController) {
                 ServiceButton(text = "Service 2", onClick = { /* Handle action */ }, isEnabled = false)
                 ServiceButton(text = "Service 3", onClick = { /* Handle action */ }, isEnabled = false)
             }
-
             // Second Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -61,7 +60,6 @@ fun HomeScreen(navController: NavHostController) {
                 ServiceButton(text = "Service 6", onClick = { /* Handle action */ }, isEnabled = false)
             }
         }
-
         BottomNav(navController)
     }
 }
@@ -70,5 +68,7 @@ fun HomeScreen(navController: NavHostController) {
 @Composable
 fun PreviewHomeScreen() {
     val navController = rememberNavController() // Create a mock NavController for the preview
-    HomeScreen(navController = navController)
+    AppTheme {
+        HomeScreen(navController = navController)
+    }
 }

@@ -22,9 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.compose.AppTheme
 import com.example.myuniservicesapp.data.AppDatabase
 import com.example.myuniservicesapp.molecules.RoomCell
 import com.example.myuniservicesapp.viewModels.BookingViewModel
@@ -95,6 +98,16 @@ fun BookingTableScreen(
 // Helper function to get the current date
 fun getCurrentDate(): String {
     return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+}
+
+@Preview
+@Composable
+fun PreviewBookingScreen(){
+    AppTheme {
+        BookingTableScreen(
+            navController = rememberNavController()
+        )
+    }
 }
 
 

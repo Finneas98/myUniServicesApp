@@ -7,14 +7,16 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 
-@Composable
-fun AccountSettingsButton(navController: NavHostController) {
-    IconButton(
-        onClick = { navController.navigate("settings") }
-    ) {
-        Icon(
-            imageVector = Icons.Default.Settings,
-            contentDescription = "Account Settings"
-        )
-    }
-}
+// Integrated into IconButton
+
+//@Composable
+//fun AccountSettingsButton(navController: NavHostController) {
+//    IconButton(
+//        onClick = { navController.navigate("settings") }
+//    ) {
+//        Icon(
+//            imageVector = Icons.Default.Settings,
+//            contentDescription = "Account Settings"
+//        )
+//    }
+//}

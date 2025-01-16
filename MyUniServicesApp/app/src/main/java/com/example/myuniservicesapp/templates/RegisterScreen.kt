@@ -19,9 +19,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.myuniservicesapp.atoms.RegisterButton
+import androidx.navigation.compose.rememberNavController
+import com.example.compose.AppTheme
+import com.example.myuniservicesapp.atoms.AuthButton
 import com.example.myuniservicesapp.molecules.EmailInput
 import com.example.myuniservicesapp.molecules.NameInput
 import com.example.myuniservicesapp.molecules.PasswordInput
@@ -42,13 +45,16 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, navController: NavHostControll
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "Register", style = MaterialTheme.typography.headlineMedium)
+        Spacer(modifier = Modifier.height(32.dp))
+        NameInput(name = name, onNameChange = { name = it })
         Spacer(modifier = Modifier.height(16.dp))
         EmailInput(email = email, onEmailChange = { email = it })
         Spacer(modifier = Modifier.height(16.dp))
-        PasswordInput(password = password, onPasswordChange = { password = it })
-        Spacer(modifier = Modifier.height(16.dp))
-        NameInput(name = name, onNameChange = { name = it })
-        Spacer(modifier = Modifier.height(16.dp))
+        PasswordInput(
+            password = password,
+            onPasswordChange = { password = it },
+            text = "Password")
+        Spacer(modifier = Modifier.height(32.dp))
         if (errorMessage != null) {
             Text(
                 text = errorMessage!!,
@@ -57,7 +63,7 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, navController: NavHostControll
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
-        RegisterButton(
+        AuthButton(
             isLoading = isLoading,
             onClick = {
                 isLoading = true
@@ -69,7 +75,19 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, navController: NavHostControll
                     errorMessage = error
                 })
             },
-            modifier = Modifier.fillMaxWidth()
+            loadingText = "Registering...",
+            text = "Register"
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewRegisterScreen(){
+    AppTheme {
+        RegisterScreen(
+            onRegisterSuccess = {},
+            navController = rememberNavController()
         )
     }
 }

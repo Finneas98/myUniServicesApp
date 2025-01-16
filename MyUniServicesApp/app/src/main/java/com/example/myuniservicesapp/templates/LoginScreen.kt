@@ -2,11 +2,13 @@ package com.example.myuniservicesapp.templates
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,18 +21,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.myuniservicesapp.utils.loginUser
 import androidx.navigation.compose.rememberNavController
-import com.example.myuniservicesapp.atoms.LoginButton
-import com.example.myuniservicesapp.atoms.RegisterButton
+import com.example.compose.AppTheme
+import com.example.myuniservicesapp.atoms.AuthButton
 import com.example.myuniservicesapp.molecules.EmailInput
 import com.example.myuniservicesapp.molecules.PasswordInput
 
 @Composable
-fun LoginScreen(onLoginSuccess: () -> Unit,
-                navController: NavHostController) {
+fun LoginScreen(
+    onLoginSuccess: () -> Unit,
+    navController: NavHostController
+) {
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
     var email by remember { mutableStateOf("") }
@@ -43,11 +48,18 @@ fun LoginScreen(onLoginSuccess: () -> Unit,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "Login", style = MaterialTheme.typography.headlineMedium)
+        Spacer(modifier = Modifier.height(32.dp))
+        EmailInput(
+            email = email,
+            onEmailChange = { email = it }
+        )
         Spacer(modifier = Modifier.height(16.dp))
-        EmailInput(email = email, onEmailChange = { email = it })
-        Spacer(modifier = Modifier.height(16.dp))
-        PasswordInput(password = password, onPasswordChange = { password = it })
-        Spacer(modifier = Modifier.height(16.dp))
+        PasswordInput(
+            password = password,
+            onPasswordChange = { password = it },
+            text = "Password"
+        )
+        Spacer(modifier = Modifier.height(32.dp))
         if (errorMessage != null) {
             Text(
                 text = errorMessage!!,
@@ -56,26 +68,42 @@ fun LoginScreen(onLoginSuccess: () -> Unit,
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
-        LoginButton(
-            isLoading = isLoading,
-            onLoginClick = {
-                isLoading = true
-                loginUser(email, password, onSuccess = {
-                    isLoading = false
-                    onLoginSuccess()
-                }, onError = { error ->
-                    isLoading = false
-                    errorMessage = error
-                })
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
-        RegisterButton(
-            onClick = {
-                navController.navigate("register")
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
+        Row {
+            AuthButton(
+                isLoading = isLoading,
+                onClick = {
+                    isLoading = true
+                    loginUser(email, password, onSuccess = {
+                        isLoading = false
+                        onLoginSuccess()
+                    }, onError = { error ->
+                        isLoading = false
+                        errorMessage = error
+                    })
+                },
+                loadingText = "Logging in...",
+                text = "Login"
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            AuthButton(
+                isLoading = isLoading,
+                onClick = {
+                    navController.navigate("register")
+                },
+                loadingText = "Loading...",
+                text = "Register"
+            )
+        }
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun PreviewLoginScreen(){
+    AppTheme {
+        LoginScreen(
+            onLoginSuccess = {},
+            navController = rememberNavController()
+        )
+    }
+}
