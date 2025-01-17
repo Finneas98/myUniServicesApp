@@ -4,7 +4,7 @@
             "outputFile": "com.example.myuniservicesapp.test.app-mergeDebugAndroidTestResources-34:/values-da/values-da.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\fionn\\.gradle\\caches\\transforms-4\\e4e87ab921d22df1d047b1b5009f013e\\transformed\\core-1.13.1\\res\\values-da\\values-da.xml",
+                    "source": "C:\\Users\\fionnan\\.gradle\\caches\\transforms-4\\e00ea71a22d680405b0dfcedad040c24\\transformed\\core-1.13.1\\res\\values-da\\values-da.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\fionn\\.gradle\\caches\\transforms-4\\9ff672cb2dca6b53c0d1a80a1af1f513\\transformed\\ui-release\\res\\values-da\\values-da.xml",
+                    "source": "C:\\Users\\fionnan\\.gradle\\caches\\transforms-4\\7bd7019d7f034dc8d404b7045ee1cddc\\transformed\\ui-release\\res\\values-da\\values-da.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
