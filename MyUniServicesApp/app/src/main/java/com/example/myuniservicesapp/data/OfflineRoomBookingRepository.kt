@@ -1,5 +1,27 @@
 package com.example.myuniservicesapp.data
 
-class OfflineRoomBookingRepository(private val roomDAO: RoomBookingDAO) : RoomBookingRepository {
+import com.example.myuniservicesapp.data.entity.Booking
+import com.example.myuniservicesapp.data.entity.Room
+import kotlinx.coroutines.flow.Flow
 
+class OfflineRoomBookingRepository(
+    private val roomBookingDAO: RoomBookingDAO
+) : RoomBookingRepository {
+    override suspend fun getAllRoomsStream(): Flow<List<Room>> = roomBookingDAO.getAllRooms()
+
+    override suspend fun getAllBookingsStream(): Flow<List<Booking>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getRoomStream(roomId: Int): Flow<Room?> = roomBookingDAO.getRoom(roomId)
+
+    override suspend fun getBookingStream(id: Int): Flow<Booking?> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun insertBooking(booking: Booking) = roomBookingDAO.insert(booking)
+
+    override suspend fun deleteBooking(booking: Booking) = roomBookingDAO.delete(booking)
+
+    override suspend fun updateBooking(booking: Booking) = roomBookingDAO.update(booking)
 }

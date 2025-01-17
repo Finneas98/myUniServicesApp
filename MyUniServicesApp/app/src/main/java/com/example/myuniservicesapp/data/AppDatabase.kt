@@ -1,59 +1,29 @@
-package com.example.myuniservicesapp.data
-
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.myuniservicesapp.data.RoomBookingDAO
 import com.example.myuniservicesapp.data.entity.Booking
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
-@Database(entities = [Room::class, Booking::class], version = 1)
+/**
+ * Database class with a singleton Instance object.
+ */
+@Database(entities = [Room::class, Booking::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun roomBookingDao(): RoomBookingDAO
+
+    abstract fun roomBookingDAO(): RoomBookingDAO
 
     companion object {
         @Volatile
-        private var INSTANCE: AppDatabase? = null
+        private var Instance: AppDatabase? = null
 
-        fun getInstance(context: Context, scope: CoroutineScope): AppDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "room_booking_database"
-                )
-                    .addCallback(AppDatabaseCallback(context,scope))
+        fun getDatabase(context: Context): AppDatabase {
+            // if the Instance is not null, return it, otherwise create a new database instance.
+            return Instance ?: synchronized(this) {
+                Room.databaseBuilder(context, AppDatabase::class.java, "app_database")
                     .build()
-                INSTANCE = instance
-                instance
+                    .also { Instance = it }
             }
         }
     }
 }
-
-class AppDatabaseCallback(
-    private val context: Context,
-    private val scope: CoroutineScope
-) : RoomDatabase.Callback() {
-    override fun onCreate(db: SupportSQLiteDatabase) {
-        super.onCreate(db)
-        // Populate the database asynchronously when it's created
-        AppDatabase.getInstance(context, scope).let { database ->
-            scope.launch {
-                populateDatabase(database.roomBookingDao())
-            }
-        }
-    }
-
-    private suspend fun populateDatabase(dao: RoomBookingDAO) {
-        // Prepopulate rooms
-        dao.insertRoom(com.example.myuniservicesapp.data.entity.Room(id = 1, roomName = "Room 1"))
-        dao.insertRoom(com.example.myuniservicesapp.data.entity.Room(id = 2, roomName = "Room 2"))
-        dao.insertRoom(com.example.myuniservicesapp.data.entity.Room(id = 3, roomName = "Room 3"))
-        dao.insertRoom(com.example.myuniservicesapp.data.entity.Room(id = 4, roomName = "Room 4"))
-        dao.insertRoom(com.example.myuniservicesapp.data.entity.Room(id = 5, roomName = "Room 5"))
-    }
-}
-

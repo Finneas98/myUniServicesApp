@@ -29,7 +29,13 @@ fun logoutUser() {
     auth.signOut()
 }
 
-fun registerUser(email: String, password: String, name: String, onSuccess: () -> Unit, onError: (String) -> Unit) {
+fun registerUser(
+    email: String,
+    password: String,
+    name: String,
+    onSuccess: () -> Unit,
+    onError: (String) -> Unit
+) {
     val auth = Firebase.auth
     auth.createUserWithEmailAndPassword(email, password)
         .addOnCompleteListener { task ->

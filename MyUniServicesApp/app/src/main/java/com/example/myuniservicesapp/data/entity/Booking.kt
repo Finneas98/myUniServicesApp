@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity(
     tableName = "bookings",
     foreignKeys = [
-        ForeignKey(entity = Room::class, parentColumns = ["id"], childColumns = ["roomId"])
+        ForeignKey(entity = Room::class, parentColumns = ["roomId"], childColumns = ["roomId"])
     ]
 )
 data class Booking(
