@@ -58,7 +58,6 @@ fun HomeScreen(navController: NavHostController) {
                 ServiceButton(text = "Service 6", onClick = { /* Handle action */ }, isEnabled = false)
             }
         }
-        BottomNav(navController)
     }
 }
 

@@ -41,6 +41,7 @@ fun RoomCell(
                     navController.navigate(
                         "confirmBooking?roomId=${room.roomId}&timeSlot=$timeSlot&date=$currentDate"
                     )
+
                 }
             },
         contentAlignment = Alignment.Center

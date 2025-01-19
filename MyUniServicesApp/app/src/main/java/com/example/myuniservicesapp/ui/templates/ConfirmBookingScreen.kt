@@ -22,12 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.example.compose.AppTheme
-import com.example.myuniservicesapp.data.RoomBookingRepository
+import com.example.myuniservicesapp.ui.AppViewModelProvider
 import com.example.myuniservicesapp.ui.atoms.BackButton
 import com.example.myuniservicesapp.ui.atoms.ConfirmBookingButton
+import com.example.myuniservicesapp.ui.viewModels.BookingDetails
 import com.example.myuniservicesapp.ui.viewModels.BookingViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -38,7 +38,7 @@ fun ConfirmBookingScreen(
     roomId: Int,
     timeSlot: String,
     navController: NavHostController,
-    viewModel: BookingViewModel
+    viewModel: BookingViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val userId = Firebase.auth.currentUser?.uid
     var isBooking by remember { mutableStateOf(false) }
@@ -73,12 +73,24 @@ fun ConfirmBookingScreen(
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 ConfirmBookingButton(
+                    bookingUiState = viewModel.bookingUiState,
                     confirmBooking = {
+                        val bookingDetails = userId?.let {
+                            BookingDetails(
+                                roomId = roomId,
+                                timeSlot = timeSlot,
+                                date = getCurrentDate(),
+                                userId = it
+                            )
+                        }
+                        if (bookingDetails != null) {
+                            viewModel.updateUiState(bookingDetails)
+                        }
                         coroutineScope.launch {
                             isBooking = true
                             try {
                                 if (userId != null) {
-                                    viewModel.confirmBooking(roomId, timeSlot, date, userId)
+                                    viewModel.saveBooking()
                                     navController.popBackStack() // Navigate back on success
                                 } else {
                                     errorMessage = "User is not authenticated."

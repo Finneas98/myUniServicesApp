@@ -1,6 +1,8 @@
 package com.example.myuniservicesapp
 
 import android.app.Application
+import com.example.myuniservicesapp.data.AppContainer
+import com.example.myuniservicesapp.data.AppDataContainer
 import com.example.myuniservicesapp.data.OfflineRoomBookingRepository
 import com.example.myuniservicesapp.data.RoomBookingRepository
 
@@ -10,11 +12,7 @@ class MyUniServicesApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        container = AppContainer(this)
+        container = AppDataContainer(this)
     }
 }
 
-class AppContainer(application: Application) {
-    private val database = AppDatabase.getDatabase(application)
-    val roomBookingRepository: RoomBookingRepository = OfflineRoomBookingRepository(database.roomBookingDAO())
-}

@@ -19,6 +19,8 @@ import com.example.myuniservicesapp.ui.templates.LoginScreen
 import com.example.myuniservicesapp.ui.templates.RegisterScreen
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.myuniservicesapp.data.OfflineRoomBookingRepository
+import com.example.myuniservicesapp.data.entity.Room
 import com.example.myuniservicesapp.ui.templates.BookingScreen
 import com.example.myuniservicesapp.ui.templates.ConfirmBookingScreen
 import com.example.myuniservicesapp.ui.templates.HomeScreen
@@ -70,7 +72,11 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
         }
 
         composable(route = "libraryBooking") {
-            BookingScreen(navController = navController)
+            BookingScreen(
+                navController = navController,
+                roomList = listOf(),
+                bookingList = listOf()
+            )
         }
 
         composable(

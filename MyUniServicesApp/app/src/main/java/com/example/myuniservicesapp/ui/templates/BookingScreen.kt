@@ -8,20 +8,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.compose.AppTheme
-import com.example.myuniservicesapp.ui.BookingViewModelProvider
+import com.example.myuniservicesapp.data.entity.Booking
+import com.example.myuniservicesapp.data.entity.Room
 import com.example.myuniservicesapp.ui.molecules.RoomCell
-import com.example.myuniservicesapp.ui.viewModels.BookingViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -29,10 +24,9 @@ import java.util.Locale
 @Composable
 fun BookingScreen(
     navController: NavController,
-    bookingViewModel: BookingViewModel = viewModel(factory = BookingViewModelProvider.Factory)
+    roomList: List<Room>,
+    bookingList: List<Booking>
 ) {
-    val rooms by bookingViewModel.rooms.observeAsState(emptyList())
-    val bookings by bookingViewModel.bookings.observeAsState(emptyList())
     val timeSlots = listOf("08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00")
     val currentDate = remember { getCurrentDate() }
 
@@ -41,7 +35,7 @@ fun BookingScreen(
         // Header row (room names)
         Row(modifier = Modifier.fillMaxWidth()) {
             Spacer(modifier = Modifier.weight(1f)) // Empty space for time slot column
-            rooms.forEach { room ->
+            roomList.forEach { room ->
                 Text(
                     text = room.roomName,
                     modifier = Modifier.weight(1f),
@@ -62,8 +56,8 @@ fun BookingScreen(
                 )
 
                 // Room cells
-                rooms.forEach { room ->
-                    RoomCell(navController, room, bookings, timeSlot, currentDate)
+                roomList.forEach { room ->
+                    RoomCell(navController, room, bookingList, timeSlot, currentDate)
                 }
             }
         }
@@ -75,14 +69,14 @@ fun getCurrentDate(): String {
     return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewBookingScreen(){
-    AppTheme {
-        BookingScreen(
-            navController = rememberNavController()
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewBookingScreen(){
+//    AppTheme {
+//        BookingScreen(
+//            navController = rememberNavController()
+//        )
+//    }
+//}
 
 

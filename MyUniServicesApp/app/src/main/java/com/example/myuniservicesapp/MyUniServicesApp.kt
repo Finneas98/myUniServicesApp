@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
 import com.example.myuniservicesapp.navigation.DrawerContent
 import com.example.myuniservicesapp.navigation.NavigationGraph
+import com.example.myuniservicesapp.ui.organisms.BottomNav
 import com.example.myuniservicesapp.ui.organisms.MyTopBar
 import com.example.myuniservicesapp.ui.templates.HomeScreen
 import com.example.myuniservicesapp.ui.templates.LoginScreen
@@ -28,13 +29,12 @@ fun MyUniServicesApp(){
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
-
-    if(isUserLoggedIn){
-        HomeScreen(navController)
-    } else {
-        LoginScreen(onLoginSuccess = {isUserLoggedIn = true}, navController = navController)
-    }
     AppTheme {
+        if(isUserLoggedIn){
+            HomeScreen(navController)
+        } else {
+            LoginScreen(onLoginSuccess = {isUserLoggedIn = true}, navController = navController)
+        }
         ModalNavigationDrawer(
             drawerState = drawerState,
             drawerContent = {
@@ -45,6 +45,13 @@ fun MyUniServicesApp(){
                 topBar = { MyTopBar(drawerState, coroutineScope) },
                 content = { paddingValues ->
                     NavigationGraph(navController = navController, paddingValues)
+                },
+                bottomBar = {
+                    if (isUserLoggedIn) {
+                         BottomNav(navController) }
+                    else {
+                        null
+                    }
                 }
             )
         }
