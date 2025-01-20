@@ -47,11 +47,7 @@ fun MyUniServicesApp(){
                     NavigationGraph(navController = navController, paddingValues)
                 },
                 bottomBar = {
-                    if (isUserLoggedIn) {
-                         BottomNav(navController) }
-                    else {
-                        null
-                    }
+                         BottomNav(navController)
                 }
             )
         }
