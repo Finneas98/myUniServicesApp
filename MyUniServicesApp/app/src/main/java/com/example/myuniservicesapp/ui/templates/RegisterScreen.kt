@@ -30,7 +30,10 @@ import com.example.myuniservicesapp.ui.molecules.PasswordInput
 import com.example.myuniservicesapp.utils.registerUser
 
 @Composable
-fun RegisterScreen(onRegisterSuccess: () -> Unit, navController: NavHostController) {
+fun RegisterScreen(
+    onRegisterSuccess: () -> Unit,
+    navController: NavHostController
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("") }

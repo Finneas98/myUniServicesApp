@@ -133,7 +133,8 @@ public final class RoomBookingDAO_Impl implements RoomBookingDAO {
   }
 
   @Override
-  public Object insertRoom(final StudyRoom studyRoom, final Continuation<? super Unit> arg1) {
+  public Object insertRoom(final StudyRoom studyRoom,
+      final Continuation<? super Unit> $completion) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       @NonNull
@@ -147,11 +148,11 @@ public final class RoomBookingDAO_Impl implements RoomBookingDAO {
           __db.endTransaction();
         }
       }
-    }, arg1);
+    }, $completion);
   }
 
   @Override
-  public Object insert(final Booking booking, final Continuation<? super Unit> arg1) {
+  public Object insert(final Booking booking, final Continuation<? super Unit> $completion) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       @NonNull
@@ -165,11 +166,12 @@ public final class RoomBookingDAO_Impl implements RoomBookingDAO {
           __db.endTransaction();
         }
       }
-    }, arg1);
+    }, $completion);
   }
 
   @Override
-  public Object insertRooms(final List<StudyRoom> listOf, final Continuation<? super Unit> arg1) {
+  public Object insertRooms(final List<StudyRoom> listOf,
+      final Continuation<? super Unit> $completion) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       @NonNull
@@ -183,11 +185,11 @@ public final class RoomBookingDAO_Impl implements RoomBookingDAO {
           __db.endTransaction();
         }
       }
-    }, arg1);
+    }, $completion);
   }
 
   @Override
-  public Object delete(final Booking booking, final Continuation<? super Unit> arg1) {
+  public Object delete(final Booking booking, final Continuation<? super Unit> $completion) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       @NonNull
@@ -201,11 +203,11 @@ public final class RoomBookingDAO_Impl implements RoomBookingDAO {
           __db.endTransaction();
         }
       }
-    }, arg1);
+    }, $completion);
   }
 
   @Override
-  public Object update(final Booking booking, final Continuation<? super Unit> arg1) {
+  public Object update(final Booking booking, final Continuation<? super Unit> $completion) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       @NonNull
@@ -219,7 +221,7 @@ public final class RoomBookingDAO_Impl implements RoomBookingDAO {
           __db.endTransaction();
         }
       }
-    }, arg1);
+    }, $completion);
   }
 
   @Override

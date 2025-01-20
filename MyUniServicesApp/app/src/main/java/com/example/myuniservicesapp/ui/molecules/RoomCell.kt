@@ -10,11 +10,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -29,15 +31,9 @@ fun RoomCell(
     navController: NavController,
     studyRoom: StudyRoom,
     timeSlot: String,
-    currentDate: String
+    currentDate: String,
+    isBooked: Boolean
 ){
-    val viewModel: BookingViewModel = hiltViewModel()
-    val roomId = studyRoom.roomId
-    LaunchedEffect(roomId, currentDate){
-        viewModel.fetchBookingsByRoomAndDate(roomId, currentDate)
-    }
-    val bookings = viewModel.bookingsByRoom.collectAsState()
-    val isBooked = bookings.value.any { it.timeSlot == timeSlot && it.roomId == roomId }
     Box(
         modifier = Modifier
             .padding(4.dp)
@@ -58,7 +54,8 @@ fun RoomCell(
         Text(
             text = if (isBooked) "Booked" else "Available",
             color = Color.White,
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodySmall,
+            maxLines = 1
         )
     }
 }

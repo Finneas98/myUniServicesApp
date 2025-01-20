@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 
@@ -123,7 +124,15 @@ fun updateUserDetails(
                             }
                         }
                 } else {
-                    onError(reauthTask.exception?.message ?: "Error reauthenticating user")
+                    val exception = reauthTask.exception
+                    when (exception) {
+                        is FirebaseAuthInvalidCredentialsException -> {
+                            onError("The current password is incorrect.")
+                        }
+                        else -> {
+                            onError(exception?.message ?: "Error reauthenticating user.")
+                        }
+                    }
                 }
             }
     } catch (e: Exception) {

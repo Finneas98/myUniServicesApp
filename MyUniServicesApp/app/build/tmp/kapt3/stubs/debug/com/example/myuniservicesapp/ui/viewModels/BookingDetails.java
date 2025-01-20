@@ -1,5 +1,6 @@
 package com.example.myuniservicesapp.ui.viewModels;
 
+import android.util.Log;
 import androidx.lifecycle.ViewModel;
 import com.example.myuniservicesapp.data.RoomBookingRepository;
 import com.example.myuniservicesapp.data.entity.Booking;

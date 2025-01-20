@@ -2,6 +2,7 @@ package com.example.myuniservicesapp.navigation;
 
 import androidx.compose.material3.DrawerState;
 import androidx.compose.runtime.Composable;
+import androidx.compose.ui.Modifier;
 import androidx.navigation.NavHostController;
 import com.google.firebase.Firebase;
 
