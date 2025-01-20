@@ -1,20 +1,22 @@
 package com.example.myuniservicesapp.data
 
 import android.content.Context
-import kotlinx.coroutines.CoroutineScope
 
+/**
+ * App container for Dependency injection.
+ */
 interface AppContainer {
-    val itemsRepository: RoomBookingRepository
+    val roomBookingRepository: RoomBookingRepository
 }
 
 /**
- * [AppContainer] implementation that provides instance of [OfflineItemsRepository]
+ * [AppContainer] implementation that provides instance of [OfflineRoomBookingRepository]
  */
-class AppDataContainer(
-    private val context: Context,
-    private val scope: CoroutineScope // Pass the scope here
-) : AppContainer {
-    override val itemsRepository: RoomBookingRepository by lazy {
-        OfflineRoomBookingRepository(AppDatabase.getInstance(context, scope).roomBookingDao())
+class AppDataContainer(private val context: Context) : AppContainer {
+    /**
+     * Implementation for [RoomBookingRepository]
+     */
+    override val roomBookingRepository: RoomBookingRepository by lazy {
+        OfflineRoomBookingRepository(AppDatabase.getDatabase(context).roomBookingDAO())
     }
 }
