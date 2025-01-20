@@ -3,6 +3,8 @@ package com.example.myuniservicesapp.ui.viewModels
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 
+// redundant module
+
 class BookingDetailsViewModel(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {

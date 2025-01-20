@@ -21,6 +21,8 @@ class BookingViewModel @Inject constructor(
     private val roomBookingRepository: RoomBookingRepository
 ) : ViewModel() {
 
+    // variables used to store data from the repository which can be accessed
+    // in composables
     private val _studyRooms = MutableStateFlow<List<StudyRoom>>(emptyList())
     val studyRooms: StateFlow<List<StudyRoom>> = _studyRooms.asStateFlow()
 
@@ -35,6 +37,7 @@ class BookingViewModel @Inject constructor(
         fetchBookings()
     }
 
+    // functions to fetch data from the repository
     private fun fetchStudyRooms() {
         viewModelScope.launch {
             roomBookingRepository.getAllRoomsStream().collect { rooms ->
@@ -46,7 +49,6 @@ class BookingViewModel @Inject constructor(
     fun fetchBookings() {
         viewModelScope.launch {
             roomBookingRepository.getAllBookingsStream().collect { bookingList ->
-                // Log.d("BookingViewModel", "Fetched bookings: $bookingList")
                 _bookings.value = bookingList
             }
         }

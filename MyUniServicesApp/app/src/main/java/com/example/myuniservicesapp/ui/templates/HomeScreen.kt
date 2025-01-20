@@ -39,20 +39,20 @@ fun HomeScreen(navController: NavHostController) {
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            // First Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 ServiceButton(text = "Study Room Booking", onClick = { navController.navigate("libraryBooking") }, isEnabled = true)
+                // empty buttons, features to be added in future development
                 ServiceButton(text = "Service 2", onClick = { /* Handle action */ }, isEnabled = false)
                 ServiceButton(text = "Service 3", onClick = { /* Handle action */ }, isEnabled = false)
             }
-            // Second Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
+                // empty buttons, features to be added in future development
                 ServiceButton(text = "Service 4", onClick = { /* Handle action */ }, isEnabled = false)
                 ServiceButton(text = "Service 5", onClick = { /* Handle action */ }, isEnabled = false)
                 ServiceButton(text = "Service 6", onClick = { /* Handle action */ }, isEnabled = false)
@@ -64,7 +64,7 @@ fun HomeScreen(navController: NavHostController) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewHomeScreen() {
-    val navController = rememberNavController() // Create a mock NavController for the preview
+    val navController = rememberNavController()
     AppTheme {
         HomeScreen(navController = navController)
     }

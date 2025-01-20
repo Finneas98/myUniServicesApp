@@ -1,6 +1,5 @@
 package com.example.myuniservicesapp.utils
 
-import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.auth.EmailAuthProvider
@@ -15,6 +14,7 @@ fun loginUser(
     onError: (String) -> Unit
 ) {
     val auth = Firebase.auth
+    // authenticates the user with email and password supplied in login form
     auth.signInWithEmailAndPassword(email, password)
         .addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -38,9 +38,12 @@ fun registerUser(
     onError: (String) -> Unit
 ) {
     val auth = Firebase.auth
+    // creates a new firebase user with the supplied email and password strings
     auth.createUserWithEmailAndPassword(email, password)
         .addOnCompleteListener { task ->
             if (task.isSuccessful) {
+                // if successful creates a new user entity in firebase db,
+                // this is done to store more details such as their name
                 val userId = auth.currentUser?.uid
                 if (userId != null) {
                     saveUserToFirestore(userId, email, password, name)
@@ -61,7 +64,7 @@ fun saveUserToFirestore(
     // Create a new user object
     val user = hashMapOf(
         "email" to email,
-        "password" to password, // Note: Consider hashing the password instead of storing it in plain text
+        "password" to password,
         "name" to name
     )
 
@@ -70,7 +73,7 @@ fun saveUserToFirestore(
     // Set the document ID to the userId
     db.collection("users")
         .document(userId)
-        .set(user) // Use set() to specify the document ID explicitly
+        .set(user)
         .addOnSuccessListener {
             Log.d("Firestore", "User saved successfully with ID: $userId")
         }
@@ -124,8 +127,9 @@ fun updateUserDetails(
                             }
                         }
                 } else {
-                    val exception = reauthTask.exception
-                    when (exception) {
+                    // displays appropriate error message when the user inserts an incorrect currentPassword
+                    // when attempting to update password
+                    when (val exception = reauthTask.exception) {
                         is FirebaseAuthInvalidCredentialsException -> {
                             onError("The current password is incorrect.")
                         }
@@ -142,9 +146,9 @@ fun updateUserDetails(
 
 fun fetchUserName(userId: String, onSuccess: (String) -> Unit, onError: (String) -> Unit) {
     val db = Firebase.firestore
-
+    // fetches the current users name from 'users' table from firebase db
     db.collection("users")
-        .document(userId) // Assuming the document ID is the same as the user ID
+        .document(userId)
         .get()
         .addOnSuccessListener { document ->
             if (document.exists()) {

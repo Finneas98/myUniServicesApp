@@ -11,7 +11,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -23,18 +22,19 @@ import com.example.myuniservicesapp.ui.templates.BookingScreen
 import com.example.myuniservicesapp.ui.templates.ConfirmBookingScreen
 import com.example.myuniservicesapp.ui.templates.HomeScreen
 import com.example.myuniservicesapp.ui.templates.SettingsScreen
-import com.example.myuniservicesapp.ui.viewModels.BookingViewModel
 import com.example.myuniservicesapp.utils.fetchUserName
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 @Composable
 fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValues) {
+    // Composable for navigation between screens
     NavHost(
         navController = navController,
         startDestination = "login",
         modifier = Modifier.padding(paddingValues)
     ) {
+
         composable(route = "login") {
             LoginScreen(
                 onLoginSuccess = { navController.navigate("home") },
@@ -55,6 +55,7 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
             var errorMessage by remember { mutableStateOf<String?>(null) }
 
             LaunchedEffect(currentUserId) {
+                // checks if the current user is logged in using fetchUserName, if not they are routed to login screen
                 if (currentUserId != null) {
                     fetchUserName(
                         userId = currentUserId,
@@ -62,7 +63,7 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
                         onError = { error -> errorMessage = error }
                     )
                 } else {
-                    errorMessage = "User not logged in"
+                    navController.navigate("login")
                 }
             }
             HomeScreen(navController)
@@ -75,6 +76,7 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
         }
 
         composable(
+            // navigates to confirmBooking screen based on the selected room and timeSlot
             route = "confirmBooking?roomId={roomId}&timeSlot={timeSlot}",
             arguments = listOf(
                 navArgument("roomId") { type = NavType.IntType },
@@ -91,6 +93,8 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
         }
 
         composable(route = "settings") {
+
+            // checks if the current user is logged in using fetchUserName, if not they are routed to login screen
             var currentName by remember { mutableStateOf<String?>(null) }
             var errorMessage by remember { mutableStateOf<String?>(null) }
             val currentUserId = Firebase.auth.currentUser?.uid
@@ -107,6 +111,8 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
                 }
             }
 
+            // if currentName is null displays an error message, this only occurs when a new account is manually created using firebase.
+            // Users registering using the app should not encounter this issue
             if (currentName != null) {
                 SettingsScreen(
                     onUpdateSuccess = { navController.navigate("settings") },

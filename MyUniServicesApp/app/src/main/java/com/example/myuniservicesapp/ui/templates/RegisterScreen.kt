@@ -71,6 +71,7 @@ fun RegisterScreen(
             AuthButton(
                 isLoading = isLoading,
                 onClick = {
+                    // if any fields are empty do not proceed with registration
                     if (email.isBlank() || password.isBlank() || name.isBlank()) {
                         errorMessage = "Fields cannot be empty"
                         return@AuthButton

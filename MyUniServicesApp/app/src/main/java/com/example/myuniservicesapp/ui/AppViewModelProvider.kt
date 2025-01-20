@@ -7,6 +7,8 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.myuniservicesapp.MyUniServicesApplication
 import com.example.myuniservicesapp.ui.viewModels.BookingViewModel
 
+// Redundant module, app uses Hilt to provide viewModels
+
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {

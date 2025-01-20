@@ -65,6 +65,7 @@ fun ConfirmBookingScreen(
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(16.dp))
+
         if (isBooking) {
             CircularProgressIndicator()
         } else {
@@ -72,8 +73,8 @@ fun ConfirmBookingScreen(
                 BackButton(navController = navController)
                 Spacer(modifier = Modifier.width(16.dp))
                 ConfirmBookingButton(
-                    bookingUiState = viewModel.bookingUiState,
                     confirmBooking = {
+                        // creates a bookingDetails object
                         val bookingDetails = userId?.let {
                             BookingDetails(
                                 roomId = roomId,
@@ -82,17 +83,20 @@ fun ConfirmBookingScreen(
                                 userId = it
                             )
                         }
+                        // updates the viewModel Ui state using the object provided
                         if (bookingDetails != null) {
                             viewModel.updateUiState(bookingDetails)
-                            Log.d("ConfirmBookingScreen", "Booking Details: ${viewModel.bookingUiState.bookingDetails}")
                         }
                         coroutineScope.launch {
                             isBooking = true
                             try {
+                                // if the user is logged in, performs and insert to the database and
+                                // fetches the any bookings for the current room incase BookingScreen doesnt correctly displays the correct RoomCell state
+                                // Navigate back on success
                                 if (userId != null) {
                                     viewModel.saveBooking()
                                     viewModel.fetchBookingsByRoomAndDate(roomId, getCurrentDate())
-                                    navController.popBackStack() // Navigate back on success
+                                    navController.popBackStack()
                                 } else {
                                     errorMessage = "User is not authenticated."
                                 }

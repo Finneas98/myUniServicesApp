@@ -73,7 +73,7 @@ fun BookingScreen(
                 )
             }
         }
-        // Time slot rows
+        // Creates rows for each timeSlot
         timeSlots.forEach { timeSlot ->
             Row(
                 modifier = Modifier
@@ -91,7 +91,7 @@ fun BookingScreen(
                     style = MaterialTheme.typography.bodyMedium
                 )
 
-                // Room cells
+                // Creates rows for each timeSlot
                 studyRoomList.forEach { room ->
                     val isBooked = bookings.any { booking ->
                         booking.timeSlot == timeSlot && booking.roomId == room.roomId

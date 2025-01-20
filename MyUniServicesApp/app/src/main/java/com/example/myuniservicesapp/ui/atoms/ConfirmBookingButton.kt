@@ -15,7 +15,6 @@ import com.example.myuniservicesapp.ui.viewModels.BookingUiState
 
 @Composable
 fun ConfirmBookingButton(
-    bookingUiState: BookingUiState,
     confirmBooking: () -> Unit
 ){
     Button(

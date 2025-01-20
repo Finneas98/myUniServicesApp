@@ -68,6 +68,7 @@ fun LoginScreen(
             AuthButton(
                 isLoading = isLoading,
                 onClick = {
+                    // if any fields are empty do not proceed with login
                     if (email.isBlank() || password.isBlank()) {
                         errorMessage = "Fields cannot be empty"
                         return@AuthButton
