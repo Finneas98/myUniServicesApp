@@ -1,17 +1,17 @@
 package com.example.myuniservicesapp.data
 
 import com.example.myuniservicesapp.data.entity.Booking
-import com.example.myuniservicesapp.data.entity.Room
+import com.example.myuniservicesapp.data.entity.StudyRoom
 import kotlinx.coroutines.flow.Flow
 
 interface RoomBookingRepository {
-    suspend fun getAllRoomsStream(): Flow<List<Room>>
+    suspend fun getAllRoomsStream(): Flow<List<StudyRoom>>
 
     suspend fun getAllBookingsStream(): Flow<List<Booking>>
 
-    suspend fun getRoomStream(roomId: Int): Flow<Room?>
+    suspend fun getRoomStream(roomId: Int): Flow<StudyRoom?>
 
-    suspend fun getBookingStream(id: Int): Flow<Booking?>
+    suspend fun getBookingsByRoomStream(roomId: Int, date: String): Flow<List<Booking>>
 
     suspend fun insertBooking(booking: Booking)
 

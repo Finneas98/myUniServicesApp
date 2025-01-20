@@ -33,11 +33,13 @@ fun BottomNav(navController: NavHostController) {
             navController,
             imageVector = Icons.Default.Home,
             text = "Home",
+            route = "home"
         )
         IconButton(
             navController,
             imageVector = Icons.Default.AccountCircle,
             text = "Account Settings",
+            route = "settings"
         )
     }
 }

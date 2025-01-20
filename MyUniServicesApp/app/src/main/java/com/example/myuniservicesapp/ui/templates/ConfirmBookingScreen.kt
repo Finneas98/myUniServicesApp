@@ -1,5 +1,6 @@
 package com.example.myuniservicesapp.ui.templates
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.myuniservicesapp.ui.AppViewModelProvider
@@ -37,9 +39,9 @@ import kotlinx.coroutines.launch
 fun ConfirmBookingScreen(
     roomId: Int,
     timeSlot: String,
-    navController: NavHostController,
-    viewModel: BookingViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    navController: NavHostController
 ) {
+    val viewModel: BookingViewModel = hiltViewModel()
     val userId = Firebase.auth.currentUser?.uid
     var isBooking by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -67,10 +69,7 @@ fun ConfirmBookingScreen(
             CircularProgressIndicator()
         } else {
             Row {
-                BackButton(
-                    navController = navController,
-                    route = "libraryBooking"
-                )
+                BackButton(navController = navController)
                 Spacer(modifier = Modifier.width(16.dp))
                 ConfirmBookingButton(
                     bookingUiState = viewModel.bookingUiState,
@@ -79,18 +78,20 @@ fun ConfirmBookingScreen(
                             BookingDetails(
                                 roomId = roomId,
                                 timeSlot = timeSlot,
-                                date = getCurrentDate(),
+                                date = date,
                                 userId = it
                             )
                         }
                         if (bookingDetails != null) {
                             viewModel.updateUiState(bookingDetails)
+                            Log.d("ConfirmBookingScreen", "Booking Details: ${viewModel.bookingUiState.bookingDetails}")
                         }
                         coroutineScope.launch {
                             isBooking = true
                             try {
                                 if (userId != null) {
                                     viewModel.saveBooking()
+                                    viewModel.fetchBookingsByRoomAndDate(roomId, getCurrentDate())
                                     navController.popBackStack() // Navigate back on success
                                 } else {
                                     errorMessage = "User is not authenticated."

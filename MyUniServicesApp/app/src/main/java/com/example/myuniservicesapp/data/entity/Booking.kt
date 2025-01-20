@@ -2,14 +2,19 @@ package com.example.myuniservicesapp.data.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
-
 
 @Entity(
     tableName = "bookings",
     foreignKeys = [
-        ForeignKey(entity = Room::class, parentColumns = ["roomId"], childColumns = ["roomId"])
-    ]
+        ForeignKey(
+            entity = StudyRoom::class,
+            parentColumns = ["roomId"],
+            childColumns = ["roomId"]
+        )
+    ],
+    indices = [Index(value = ["roomId"])]
 )
 data class Booking(
     @PrimaryKey(autoGenerate = true)

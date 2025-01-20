@@ -11,23 +11,36 @@ import androidx.compose.runtime.setValue
 import androidx.navigation.NavHostController
 import com.example.myuniservicesapp.ui.atoms.AuthButton
 import com.example.myuniservicesapp.utils.logoutUser
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import kotlinx.coroutines.launch
 
 @Composable
 fun DrawerContent(navController: NavHostController, drawerState: DrawerState) {
     val coroutineScope = rememberCoroutineScope()
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    var isUserLoggedIn by remember { mutableStateOf(Firebase.auth.currentUser != null) }
+    val text = if (isUserLoggedIn) "Logout" else "Login"
 
     Column {
         AuthButton(
             isLoading = isLoading,
             onClick = {
-                isLoading = true
-                logoutUser()
-                navController.navigate("login")
+                coroutineScope.launch {
+                    isLoading = true
+                    if(isUserLoggedIn){
+                        logoutUser()
+                        isLoading = false
+                        navController.navigate("login")
+                    } else {
+                        isLoading = false
+                        navController.navigate("login")
+                    }
+                }
             },
             loadingText = "Loading...",
-            text = "Login"
+            text = text
         )
     }
 }

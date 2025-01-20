@@ -2,10 +2,12 @@ package com.example.myuniservicesapp.ui.templates
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +23,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
 import com.example.myuniservicesapp.ui.atoms.AuthButton
+import com.example.myuniservicesapp.ui.atoms.BackButton
 import com.example.myuniservicesapp.ui.molecules.EmailInput
 import com.example.myuniservicesapp.ui.molecules.NameInput
 import com.example.myuniservicesapp.ui.molecules.PasswordInput
@@ -59,21 +62,29 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit, navController: NavHostControll
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
-        AuthButton(
-            isLoading = isLoading,
-            onClick = {
-                isLoading = true
-                registerUser(email, password, name, onSuccess = {
-                    isLoading = false
-                    onRegisterSuccess()
-                }, onError = { error ->
-                    isLoading = false
-                    errorMessage = error
-                })
-            },
-            loadingText = "Registering...",
-            text = "Register"
-        )
+        Row {
+            BackButton(navController)
+            Spacer(modifier = Modifier.width(16.dp))
+            AuthButton(
+                isLoading = isLoading,
+                onClick = {
+                    if (email.isBlank() || password.isBlank() || name.isBlank()) {
+                        errorMessage = "Fields cannot be empty"
+                        return@AuthButton
+                    }
+                    isLoading = true
+                    registerUser(email, password, name, onSuccess = {
+                        isLoading = false
+                        onRegisterSuccess()
+                    }, onError = { error ->
+                        isLoading = false
+                        errorMessage = error
+                    })
+                },
+                loadingText = "Registering...",
+                text = "Register"
+            )
+        }
     }
 }
 

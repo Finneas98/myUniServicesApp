@@ -68,6 +68,10 @@ fun LoginScreen(
             AuthButton(
                 isLoading = isLoading,
                 onClick = {
+                    if (email.isBlank() || password.isBlank()) {
+                        errorMessage = "Fields cannot be empty"
+                        return@AuthButton
+                    }
                     isLoading = true
                     loginUser(email, password, onSuccess = {
                         isLoading = false

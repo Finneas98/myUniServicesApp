@@ -14,9 +14,10 @@ fun IconButton(
     navController: NavHostController,
     imageVector: ImageVector,
     text: String,
+    route: String
 ) {
     IconButton(
-        onClick = { navController.navigate("home") }
+        onClick = { navController.navigate(route) }
     ) {
         Icon(
             imageVector = imageVector,

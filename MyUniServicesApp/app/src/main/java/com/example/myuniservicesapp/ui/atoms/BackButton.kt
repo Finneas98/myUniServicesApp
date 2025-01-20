@@ -16,11 +16,10 @@ import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun BackButton(
-    navController: NavHostController,
-    route: String
+    navController: NavHostController
 ){
     Button(
-        onClick = { navController.navigate(route) },
+        onClick = { navController.popBackStack() },
         modifier = Modifier
             .width(80.dp) // Ensures the button fills the width of its parent
             .height(48.dp) // Sets a fixed height for the button
@@ -35,7 +34,6 @@ fun BackButton(
 @Composable
 fun PreviewBackButton(){
     BackButton(
-        navController = rememberNavController(),
-        route = ""
+        navController = rememberNavController()
     )
 }

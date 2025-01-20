@@ -19,8 +19,6 @@ import com.example.myuniservicesapp.ui.templates.LoginScreen
 import com.example.myuniservicesapp.ui.templates.RegisterScreen
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.myuniservicesapp.data.OfflineRoomBookingRepository
-import com.example.myuniservicesapp.data.entity.Room
 import com.example.myuniservicesapp.ui.templates.BookingScreen
 import com.example.myuniservicesapp.ui.templates.ConfirmBookingScreen
 import com.example.myuniservicesapp.ui.templates.HomeScreen
@@ -32,7 +30,6 @@ import com.google.firebase.ktx.Firebase
 
 @Composable
 fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValues) {
-    val viewModel: BookingViewModel = viewModel()
     NavHost(
         navController = navController,
         startDestination = "login",
@@ -73,9 +70,7 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
 
         composable(route = "libraryBooking") {
             BookingScreen(
-                navController = navController,
-                roomList = listOf(),
-                bookingList = listOf()
+                navController = navController
             )
         }
 
@@ -91,8 +86,7 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
             ConfirmBookingScreen(
                 roomId = roomId,
                 timeSlot = timeSlot,
-                navController = navController,
-                viewModel = viewModel
+                navController = navController
             )
         }
 
@@ -109,7 +103,7 @@ fun NavigationGraph(navController: NavHostController, paddingValues: PaddingValu
                         onError = { error -> errorMessage = error }
                     )
                 } else {
-                    errorMessage = "User not logged in"
+                    navController.navigate("login")
                 }
             }
 

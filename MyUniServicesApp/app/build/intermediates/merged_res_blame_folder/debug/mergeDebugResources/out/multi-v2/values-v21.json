@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.myuniservicesapp-mergeDebugResources-68:/values-v21/values-v21.xml",
+            "outputFile": "com.example.myuniservicesapp-mergeDebugResources-71:/values-v21/values-v21.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\fionn\\.gradle\\caches\\transforms-4\\b19470d0f77796b02602956d450ca824\\transformed\\credentials-play-services-auth-1.2.0-rc01\\res\\values-v21\\values-v21.xml",
+                    "source": "C:\\Users\\fionn\\.gradle\\caches\\transforms-4\\34a8a7e56f68209756deee54c39982e5\\transformed\\credentials-play-services-auth-1.2.0-rc01\\res\\values-v21\\values-v21.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\fionn\\.gradle\\caches\\transforms-4\\e00ea71a22d680405b0dfcedad040c24\\transformed\\core-1.13.1\\res\\values-v21\\values-v21.xml",
+                    "source": "C:\\Users\\fionn\\.gradle\\caches\\transforms-4\\869a58ef85d522863eb1bc5a25751beb\\transformed\\core-1.13.1\\res\\values-v21\\values-v21.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,13",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4",

@@ -74,7 +74,7 @@ fun SettingsScreen(
             Spacer(modifier = Modifier.height(16.dp))
         }
         Row {
-            BackButton(navController,"home")
+            BackButton(navController)
             Spacer(modifier = Modifier.width(16.dp))
             AuthButton(
                 isLoading = isLoading,
